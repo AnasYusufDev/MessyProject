@@ -1,17 +1,21 @@
-import java.io.*;
-import java.util.*;
 
-public class Persister
-{
-    public static void s(ArrayList<User> u) throws IOException
-    {
-        File file = new File("users.txt"); // Creates file
-        FileWriter fw = new FileWriter(file); // Create filewriter
-        BufferedWriter bw = new BufferedWriter(fw); // Create BufferedWriter
-        for(int x=0;x<u.size()-1;x++) // Create a loop
-        { // Nicely formatted block
-            bw.write(u.get(x).c_nam); // Write first thing
-            bw.write(u.get(x).geti()); // Write second thing
-        } // Ending parenthesis
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public class Persister {
+    public static void s(UserList list) throws IOException {
+        Path path = Path.of("users.txt");
+        try (BufferedWriter bw = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
+            for (User u : list.getAll()) {
+                String address = u.getAddress() == null ? "" : u.getAddress();
+                bw.write(u.getName() + ";" + u.getId() + ";" + address);
+                bw.newLine(); // <-- korrekt linjeskift
+            }
+        }
     }
 }
+
+

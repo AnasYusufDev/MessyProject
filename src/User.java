@@ -1,43 +1,44 @@
-public class User
-{
-    public int c_id;
-    public String c_nam;
-    public String address;
+public class User {
+    private int id;
+    private String name;
+    private String address;
 
-    public User(int i, String n){
-        c_id = i;
-        if(n.length() < 0 || n.length() > 100) // Testing length
-        {
-            return; //If string is invalid, we dont try to store it
+    public User(String name, int id) {
+        setName(name);
+        this.id = id;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getAddress() { return address; }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank() || name.length() > 100) {
+            throw new IllegalArgumentException("Name must be 1..100 chars");
         }
-        c_nam = n;
+        this.name = name;
     }
 
-    public void setC_nam(String n)
-    {
-        if(n.length() < 0)
-        {
-            return; //If string is invalid, we dont try to store it
-        }
-        c_nam = n;
+    public void setAddress(String address) {
+        this.address = address;
     }
-
-    public void setA(String a)
-    {
-        a = a;
-    }
-
-    public int geti(){ return c_id; }
-
-    public String getn(){ return c_nam; }
-
-    public String geta(){ return "STREETNAME"; }
 
     @Override
-    public boolean equals(Object o){
-        if(o instanceof User u){
-            return u.c_nam == c_nam;
-        }
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User other)) return false;
+        return id == other.id && name.equalsIgnoreCase(other.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(id, name == null ? null : name.toLowerCase());
+    }
+
+    @Override
+    public String toString() {
+        return name + " (" + id + ")";
     }
 }
+
+
